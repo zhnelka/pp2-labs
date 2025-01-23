@@ -1,0 +1,224 @@
+# %%
+print("Hello, World!")
+
+# %%
+import sys
+
+print(sys.version)
+
+# %%
+if 5 > 2:
+  print("Five is greater than two!")
+
+# %%
+x = 5
+y = "Hello, World!"
+#This is a comment.
+
+# %%
+x = 5
+y = "John"
+print(x)
+print(y)
+
+# %%
+x = 4       # x is of type int
+x = "Sally" # x is now of type str
+print(x)
+
+# %%
+x = str(3)    # x will be '3'
+y = int(3)    # y will be 3
+z = float(3)  # z will be 3.0
+
+# %%
+x = 5
+y = "John"
+print(type(x))
+print(type(y))
+
+# %%
+x, y, z = "Orange", "Banana", "Cherry"
+print(x)
+print(y)
+print(z)
+
+# %%
+x = y = z = "Orange"
+print(x)
+print(y)
+print(z)
+
+# %%
+fruits = ["apple", "banana", "cherry"]
+x, y, z = fruits
+print(x)
+print(y)
+print(z)
+
+# %%
+x = "Python "
+y = "is "
+z = "awesome"
+print(x + y + z)
+
+# %%
+x = 5
+y = 10
+print(x + y)
+
+# %%
+x = "awesome"
+
+def myfunc():
+  x = "fantastic"
+  print("Python is " + x)
+
+myfunc()
+
+print("Python is " + x)
+
+# %%
+def myfunc():
+  global x
+  x = "fantastic"
+
+myfunc()
+
+print("Python is " + x)
+
+# %%
+x = "awesome"
+
+def myfunc():
+  global x
+  x = "fantastic"
+
+myfunc()
+
+print("Python is " + x)
+
+# %%
+x = 1    # int
+y = 2.8  # float
+z = 1j   # complex
+
+#convert from int to float:
+a = float(x)
+
+#convert from float to int:
+b = int(y)
+
+#convert from int to complex:
+c = complex(x)
+
+print(a)
+print(b)
+print(c)
+
+print(type(a))
+print(type(b))
+print(type(c))
+
+# %%
+import random
+
+print(random.randrange(1, 10))
+
+# %%
+a = """Lorem ipsum dolor sit amet,
+consectetur adipiscing elit,
+sed do eiusmod tempor incididunt
+ut labore et dolore magna aliqua."""
+print(a)
+
+# %%
+a = "Hello, World!"
+print(a[1])
+
+# %%
+for x in "banana":
+  print(x)
+
+# %%
+a = "Hello, World!"
+print(len(a))
+
+# %%
+txt = "The best things in life are free!"
+print("free" in txt)
+
+# %%
+txt = "The best things in life are free!"
+if "free" in txt:
+  print("Yes, 'free' is present.")
+
+# %%
+txt = "The best things in life are free!"
+print("expensive" not in txt)
+
+# %%
+b = "Hello, World!"
+print(b[2:5])
+
+# %%
+b = "Hello, World!"
+print(b[:5])
+
+# %%
+b = "Hello, World!"
+print(b[2:])
+
+# %%
+b = "Hello, World!"
+print(b[-5:-2])
+
+# %%
+a = "Hello, World!"
+print(a.upper())
+
+# %%
+a = "Hello, World!"
+print(a.lower())
+
+# %%
+a = " Hello, World! "
+print(a.strip()) # returns "Hello, World!"
+
+# %%
+a = "Hello, World!"
+print(a.replace("H", "J"))
+
+# %%
+a = "Hello, World!"
+print(a.split(",")) # returns ['Hello', ' World!']
+
+# %%
+a = "Hello"
+b = "World"
+c = a + " " + b
+print(c)
+
+# %%
+age = 36
+txt = f"My name is John, I am {age}"
+print(txt)
+
+# %%
+price = 59
+txt = f"The price is {price} dollars"
+print(txt)
+
+# %%
+price = 59
+txt = f"The price is {price:.2f} dollars"
+print(txt)
+
+# %%
+txt = f"The price is {20 * 59} dollars"
+print(txt)
+
+# %%
+txt = "We are the so-called \"Vikings\" from the north."
+
+
