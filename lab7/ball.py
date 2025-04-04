@@ -1,35 +1,29 @@
 import pygame
 
 pygame.init()
+screen = pygame.display.set_mode((410, 310))
+pygame.display.set_caption("Red Ball")
+run = True
 
-WIDTH, HEIGHT = 500, 500
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-BALL_RADIUS = 25
-STEP = 20
+WHITE = (255,255,255)
+RED = (255,0,0)
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Moving Ball")
+x = 25
+y = 25
 
-ball_x, ball_y = WIDTH // 2, HEIGHT // 2
-
-running = True
-while running:
+while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and ball_y - STEP - BALL_RADIUS >= 0:
-                ball_y -= STEP
-            elif event.key == pygame.K_DOWN and ball_y + STEP + BALL_RADIUS <= HEIGHT:
-                ball_y += STEP
-            elif event.key == pygame.K_LEFT and ball_x - STEP - BALL_RADIUS >= 0:
-                ball_x -= STEP
-            elif event.key == pygame.K_RIGHT and ball_x + STEP + BALL_RADIUS <= WIDTH:
-                ball_x += STEP
-    
+            run = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT and x < 380:
+                x += 20
+            if event.key == pygame.K_LEFT and x > 25:
+                x -= 20
+            if event.key == pygame.K_UP and y > 25:
+                y -= 20
+            if event.key == pygame.K_DOWN and y < 280:
+                y += 20
     screen.fill(WHITE)
-    pygame.draw.circle(screen, RED, (ball_x, ball_y), BALL_RADIUS)
+    pygame.draw.circle(screen, RED, (x, y), 25)
     pygame.display.flip()
-
-pygame.quit()
