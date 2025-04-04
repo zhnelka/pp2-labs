@@ -1,48 +1,26 @@
 import pygame
-import math
-import time
+import datetime
 
 pygame.init()
-
-WIDTH, HEIGHT = 400, 400
-CENTER = (WIDTH // 2, HEIGHT // 2)
-WHITE = (255, 255, 255)
-
-mickey = pygame.image.load("mickey.png")
-right_hand = pygame.image.load("right_hand.png")
-left_hand = pygame.image.load("left_hand.png")
-
-right_hand = pygame.transform.scale(right_hand, (150, 10))
-left_hand = pygame.transform.scale(left_hand, (120, 8))
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((829, 836))
+run = True
 pygame.display.set_caption("Mickey Clock")
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+mickey = pygame.image.load("/Users/mrtva_zhanel/Downloads/main-clock.png")
+left = pygame.image.load("/Users/mrtva_zhanel/Downloads/left-hand.png")
+right = pygame.image.load("/Users/mrtva_zhanel/Downloads/right-hand.png")
 
-    t = time.localtime()
-    minutes = t.tm_min
-    seconds = t.tm_sec
+while run:
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                        run = False
+        screen.blit(mickey, (0, 0))
+        time = datetime.datetime.now()
+        rot1 = pygame.transform.rotate(left, -time.second * 6)
+        rot1_rect = rot1.get_rect(center = (829/2, 836/2))
+        screen.blit(rot1, rot1_rect)
+        rot2 = pygame.transform.rotate(right, -time.minute * 6)
+        rot2_rect = rot2.get_rect(center = (829/2, 836/2))
+        screen.blit(rot2, rot2_rect)
 
-    minute_angle = -(minutes * 6)
-    second_angle = -(seconds * 6)
-
-    rotated_right_hand = pygame.transform.rotate(right_hand, minute_angle)
-    rotated_left_hand = pygame.transform.rotate(left_hand, second_angle)
-
-    right_hand_rect = rotated_right_hand.get_rect(center=CENTER)
-    left_hand_rect = rotated_left_hand.get_rect(center=CENTER)
-
-    screen.fill(WHITE)
-    screen.blit(mickey, (0, 0))
-    screen.blit(rotated_right_hand, right_hand_rect)
-    screen.blit(rotated_left_hand, left_hand_rect)
-    
-    pygame.display.flip()
-    pygame.time.delay(1000)
-
-pygame.quit()
+        pygame.display.flip()
