@@ -1,77 +1,129 @@
 import pygame
+    
+def main():
+    pygame.init()
 
+    width = 800
+    height = 600
+    white = (255, 255, 255)
+    red = (255, 0, 0)
+    black = (0, 0, 0)
+    blue = (0, 0, 255)
+    yellow = (255, 255, 0)
+    green = (0, 255, 0)
+    color = black
 
-pygame.init()
+    screen = pygame.display.set_mode((width, height))
+    layer = pygame.Surface((width, height))
+    clock = pygame.time.Clock()
+    
+    X, Y, x, y = -1, -1, -1, -1
+    radius = 10
 
+    screen.fill(white)
+    layer.fill(white)
+    
+    isMouseDown = False
+    drawLine = True
+    drawRect = False
+    drawCircle = False
+    eraser = False
 
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Paint")
+    running = True
 
+    while running:
 
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-current_color = BLACK 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    color = black
+                    
+                if event.key == pygame.K_2:
+                    color = red
+                    
+                if event.key == pygame.K_3:
+                    color = blue
+                    
+                if event.key == pygame.K_4:
+                    color = yellow
+                    
+                if event.key == pygame.K_5:
+                    color = green
 
+                if event.key == pygame.K_UP:
+                    if not radius == 50:
+                        radius += 3
+                
+                if event.key == pygame.K_DOWN:
+                    if not radius == 1:
+                        radius -= 3
+                    
+                if event.key == pygame.K_q:
+                    drawRect = True
+                    drawCircle = False
+                    eraser = False
+                    drawLine = False
+                    
+                if event.key == pygame.K_w:
+                    drawRect = False
+                    drawCircle = True
+                    eraser = False
+                    drawLine = False
+                    
+                if event.key == pygame.K_e:
+                    drawRect = False
+                    drawCircle = False
+                    eraser = True
+                    drawLine = False
 
-brush_size = 5
-mode = "brush"  # Возможные режимы: "brush", "rectangle", "circle", "eraser"
+                if event.key == pygame.K_r:   
+                    drawRect = False
+                    drawCircle = False
+                    eraser = False
+                    drawLine = True
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:    
+                if event.button == 1:
+                    isMouseDown = True
+                    x =  event.pos[0]
+                    y = event.pos[1]
+                    X =  event.pos[0]
+                    Y =  event.pos[1]
+                
+            if event.type == pygame.MOUSEBUTTONUP:
+                isMouseDown = False
+                layer.blit(screen, (0, 0))
+      
+            if event.type == pygame.MOUSEMOTION:
+                if isMouseDown:
+                    x =  event.pos[0]
+                    y =  event.pos[1]
 
+        if drawLine and pygame.mouse.get_pressed()[0]:
+            pygame.draw.circle(screen, color, mouse, radius)
 
-screen.fill(WHITE)
-pygame.display.update()
-
-
-running = True
-start_pos = None  # Начальная позиция для фигур
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        if isMouseDown and X != -1 and Y != -1 and x != -1 and y != -1 and drawRect:
+            screen.blit(layer, (0, 0))
+            r = calculateRect(X, Y, x, y)
+            pygame.draw.rect(screen, color, pygame.Rect(r), radius)
         
-       
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_r:
-                current_color = RED
-            elif event.key == pygame.K_g:
-                current_color = GREEN
-            elif event.key == pygame.K_b:
-                current_color = BLUE
-            elif event.key == pygame.K_e:
-                mode = "eraser"
-            elif event.key == pygame.K_p:
-                mode = "brush"
-            elif event.key == pygame.K_c:
-                mode = "circle"
-            elif event.key == pygame.K_s:
-                mode = "rectangle"
-
-
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            start_pos = event.pos
-            if mode == "brush":
-                pygame.draw.circle(screen, current_color, event.pos, brush_size)
-            elif mode == "eraser":
-                pygame.draw.circle(screen, WHITE, event.pos, brush_size)
+        if isMouseDown and X != -1 and Y != -1 and x != -1 and y != -1 and drawCircle:
+            screen.blit(layer, (0, 0))
+            r = calculateRect(X, Y, x, y)
+            pygame.draw.ellipse(screen, color, r, radius)
+        mouse = pygame.mouse.get_pos()
         
-        elif event.type == pygame.MOUSEMOTION and event.buttons[0]:
-            if mode == "brush":
-                pygame.draw.circle(screen, current_color, event.pos, brush_size)
-            elif mode == "eraser":
-                pygame.draw.circle(screen, WHITE, event.pos, brush_size)
-        
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if mode == "rectangle" and start_pos:
-                end_pos = event.pos
-                pygame.draw.rect(screen, current_color, (*start_pos, end_pos[0] - start_pos[0], end_pos[1] - start_pos[1]), 2)
-            elif mode == "circle" and start_pos:
-                end_pos = event.pos
-                radius = int(((end_pos[0] - start_pos[0]) ** 2 + (end_pos[1] - start_pos[1]) ** 2) ** 0.5)
-                pygame.draw.circle(screen, current_color, start_pos, radius, 2)
-        
-    pygame.display.update()
+        if eraser and pygame.mouse.get_pressed()[0]:
+            pygame.draw.circle(screen, white, mouse, radius)
+            
+        pygame.display.flip()
+        clock.tick(100000000000000)
 
-pygame.quit()
+def calculateRect(x1, y1, x2, y2):
+    return pygame.Rect(min(x1, x2), min(y1, y2), abs(x1 - x2), abs(y1 - y2))
+    
+main()
